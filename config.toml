@@ -6,12 +6,16 @@ cookies_dir = "cookies"
 
 [default]
 language = "en"
-account = "test"
+account = "dbnz"
 source_file_path = ""
 subs_file_path = ""
 timecodes = []
 clips_json_path = ""
 
-[accounts.test]
-json = "videos_jsons/test.json"
-accountname = "@test"
+[accounts.dbnz]
+json = "videos_jsons/dbnz.json"
+accountname = "En Account"
+
+[accounts.scm]
+json = "videos_jsons/scm.json"
+accountname = "Ru Account"
