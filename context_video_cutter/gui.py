@@ -7,6 +7,7 @@ import context_video_cutter.subtitle_processing as subtitle_processing
 import toml
 import context_video_cutter.utils as utils
 import context_video_cutter.video_processing as video_processing
+from context_video_cutter import uploader
 from context_video_cutter.config_manager import set_language, set_account, get_account_config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -266,9 +267,25 @@ def create_app():
             text=acc_data['accountname'],
             variable=account,
             value=account_name
-        ).grid(row=1, column=idx, sticky="w")
+        ).grid(row=0, column=idx, sticky="w")
 
-    ttk.Button(upload_frame, text="Upload to TikTok").grid(row=0, column=0, sticky="w", pady=5)
+    ttk.Button(upload_frame,command=lambda: threading.Thread(
+            target=uploader.upload_tik_tok_videos,
+            args=(
+                {
+                    "uploading_status_label": uploading_status_label
+                },
+                log_box,
+                tk,
+            ),
+            daemon=True,
+        ).start(), text="Upload to TikTok").grid(row=1, column=0, sticky="w", pady=5)
+    uploading_status_label = ttk.Label(
+        upload_frame, text="Not started", style="Red.TLabel"
+    )
+    uploading_status_label.grid(
+        row=1, column=1, columnspan=2, sticky="w", pady=5
+    )
 
     return app
 
