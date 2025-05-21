@@ -1,2 +1,5 @@
+from context_video_cutter.gui import create_app
+
 if __name__ == "__main__":
-    print(123)
+    app = create_app()
+    app.mainloop()
