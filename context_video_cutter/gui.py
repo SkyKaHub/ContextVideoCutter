@@ -124,6 +124,19 @@ def create_app():
 
     ttk.Button(
         subs_frame,
+        text="Choose subs file",
+        command=lambda: utils.select_file(
+            file_type="subs", file_label=selected_subs_label
+        ),
+    ).grid(row=1, column=0, columnspan=1, sticky="ew", pady=5)
+
+    selected_subs_label = ttk.Label(
+        subs_frame, text="No file selected", foreground="red"
+    )
+    selected_subs_label.grid(row=1, column=1, columnspan=2, sticky="w", pady=5)
+
+    ttk.Button(
+        subs_frame,
         text="Generate Subtitles",
         command=lambda: subtitle_processing.transcribe_video(
             labels={
@@ -137,27 +150,13 @@ def create_app():
     subtitle_label = ttk.Label(subs_frame, text="Status: Not started")
     subtitle_label.grid(row=0, column=1, sticky="w")
 
-    # ttk.Button(subs_frame, text="Generate full video with subtitles").grid(row=1, column=0, sticky="w")
-    # ttk.Button(subs_frame, text="Open subtitles folder").grid(row=1, column=1, sticky="w")
-
     # === Section: Detect interesting moments ===
     interesting_frame = ttk.LabelFrame(
         left_scrollable_frame, text="3. Interesting moments"
     )
     interesting_frame.pack(fill="x", padx=10, pady=10)
 
-    ttk.Button(
-        interesting_frame,
-        text="Choose subs file",
-        command=lambda: utils.select_file(
-            file_type="subs", file_label=selected_subs_label
-        ),
-    ).grid(row=1, column=0, columnspan=2, sticky="ew", pady=5)
 
-    selected_subs_label = ttk.Label(
-        interesting_frame, text="No file selected", foreground="red"
-    )
-    selected_subs_label.grid(row=0, column=0, columnspan=2, sticky="w", pady=5)
 
     interests_status_label = ttk.Label(
         interesting_frame, text="Not started", foreground="red"
