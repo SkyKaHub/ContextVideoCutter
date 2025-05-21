@@ -3,14 +3,14 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import ttk
 
-import subtitle_processing
+import context_video_cutter.subtitle_processing as subtitle_processing
 import toml
-import utils as utils
-import video_processing
-from config_manager import set_language
+import context_video_cutter.utils as utils
+import context_video_cutter.video_processing as video_processing
+from context_video_cutter.config_manager import set_language
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-config = toml.load(BASE_DIR / "config" / "config.toml")
+config = toml.load(BASE_DIR / "config.toml")
 BASE_OUTPUT_DIR = (BASE_DIR / config["paths"]["output_dir_base"]).as_posix()
 SOURCES_DIR = (BASE_DIR / config["paths"]["sources_dir"]).as_posix()
 
