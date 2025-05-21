@@ -12,7 +12,7 @@ from faster_whisper import WhisperModel
 import srt
 from humanfriendly.terminal import output
 
-import config_manager
+import context_video_cutter.config_manager as config_manager
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 config = toml.load(BASE_DIR / "config.toml")

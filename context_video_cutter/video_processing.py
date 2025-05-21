@@ -10,7 +10,8 @@ import toml
 from pysrt import SubRipTime, SubRipFile
 from slugify import slugify
 
-import config_manager, utils
+import context_video_cutter.config_manager as config_manager
+import context_video_cutter.utils as utils
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 config = toml.load(BASE_DIR / "config.toml")

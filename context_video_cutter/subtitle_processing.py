@@ -10,7 +10,8 @@ import spacy
 import toml
 from slugify import slugify
 
-import utils, config_manager
+import context_video_cutter.utils as utils
+import context_video_cutter.config_manager as config_manager
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 config = toml.load(BASE_DIR / "config.toml")
