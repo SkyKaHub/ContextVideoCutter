@@ -1,0 +1,17 @@
+[paths]
+output_dir_base = "results"
+sources_dir = "sources"
+account_jsons_dir = "videos_jsons"
+cookies_dir = "cookies"
+
+[default]
+language = "en"
+account = "test"
+source_file_path = ""
+subs_file_path = ""
+timecodes = []
+clips_json_path = ""
+
+[accounts.test]
+json = "videos_jsons/test.json"
+accountname = "@test"
