@@ -182,3 +182,4 @@ cython_debug/
 #local files
 sources/
 results/
+config.toml
