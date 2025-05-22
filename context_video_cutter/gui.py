@@ -60,8 +60,24 @@ def create_app():
     log_box = tk.Text(log_frame, height=40, wrap="word", state="disabled")
     log_box.pack(fill="both", expand=True)
 
+    # === Section: Account Selection ===
+    account_selection_frame = ttk.LabelFrame(left_scrollable_frame, text="1. Select Account")
+    account_selection_frame.pack(fill="x", padx=10, pady=10)
+
+    account = tk.StringVar(value=config["default"]["account"])
+    account.trace_add("write", lambda *_: set_account(account.get()))
+    ttk.Label(account_selection_frame, text="Select account:").grid(row=0, column=0, columnspan=2, sticky="w", pady=5)
+    for idx, account_name in enumerate(config['accounts']):
+        acc_data = config['accounts'][account_name]
+        tk.Radiobutton(
+            account_selection_frame,
+            text=acc_data['accountname'],
+            variable=account,
+            value=account_name
+        ).grid(row=0, column=idx, sticky="w")
+
     # === Section: Video Input ===
-    video_frame = ttk.LabelFrame(left_scrollable_frame, text="1. Video Input")
+    video_frame = ttk.LabelFrame(left_scrollable_frame, text="2. Video Input")
     video_frame.pack(fill="x", padx=10, pady=10)
 
     language = tk.StringVar(value=config["default"]["language"])
@@ -120,7 +136,7 @@ def create_app():
     downloaded_file_label.pack(side="left", padx=(0, 5))
 
     # === Section: Subtitles ===
-    subs_frame = ttk.LabelFrame(left_scrollable_frame, text="2. Subtitles")
+    subs_frame = ttk.LabelFrame(left_scrollable_frame, text="3. Subtitles")
     subs_frame.pack(fill="x", padx=10, pady=10)
 
     ttk.Button(
@@ -153,7 +169,7 @@ def create_app():
 
     # === Section: Detect interesting moments ===
     interesting_frame = ttk.LabelFrame(
-        left_scrollable_frame, text="3. Interesting moments"
+        left_scrollable_frame, text="4. Interesting moments"
     )
     interesting_frame.pack(fill="x", padx=10, pady=10)
 
@@ -175,7 +191,7 @@ def create_app():
     ).grid(row=3, column=0, columnspan=2, sticky="ew", pady=5)
 
     # === Section: Clip Cutting ===
-    cut_frame = ttk.LabelFrame(left_scrollable_frame, text="3. Clip Cutting")
+    cut_frame = ttk.LabelFrame(left_scrollable_frame, text="5. Clip Cutting")
     cut_frame.pack(fill="x", padx=10, pady=10)
 
     ttk.Label(cut_frame, text="Timecodes (format: 00:00:00.000 - 00:00:10.000):").grid(
@@ -206,7 +222,7 @@ def create_app():
     ).grid(row=2, column=0, sticky="w", pady=5)
 
     # === Section: Subtitle Embedding ===
-    convert_frame = ttk.LabelFrame(left_scrollable_frame, text="4. Subtitle Embedding")
+    convert_frame = ttk.LabelFrame(left_scrollable_frame, text="6. Subtitle Embedding")
     convert_frame.pack(fill="x", padx=10, pady=10)
     ttk.Button(
         convert_frame,
@@ -254,21 +270,8 @@ def create_app():
 
     # === Section: TikTok Upload ===
 
-    upload_frame = ttk.LabelFrame(left_scrollable_frame, text="4. TikTok Upload")
+    upload_frame = ttk.LabelFrame(left_scrollable_frame, text="7. TikTok Upload")
     upload_frame.pack(fill="x", padx=10, pady=10)
-
-    account = tk.StringVar(value=config["default"]["account"])
-    account.trace_add("write", lambda *_: set_account(account.get()))
-    ttk.Label(upload_frame, text="Select account:").grid(row=0, column=0, columnspan=2, sticky="w", pady=5)
-
-    for idx, account_name in enumerate(config['accounts']):
-        acc_data = config['accounts'][account_name]
-        tk.Radiobutton(
-            upload_frame,
-            text=acc_data['accountname'],
-            variable=account,
-            value=account_name
-        ).grid(row=0, column=idx, sticky="w")
 
     ttk.Button(upload_frame,command=lambda: threading.Thread(
             target=uploader.upload_tik_tok_videos,
