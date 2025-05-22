@@ -14,7 +14,13 @@ import context_video_cutter.config_manager as config_manager
 import context_video_cutter.utils as utils
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-config = toml.load(BASE_DIR / "config.toml")
+config_path = BASE_DIR / "config.toml"
+template_path = BASE_DIR / "config.example.toml"
+if not config_path.exists():
+    print("⚠ config.toml not found — creating from template.")
+    config = toml.load(template_path)
+else:
+    config = toml.load(config_path)
 
 
 def cut_video(labels, log_box, tk):

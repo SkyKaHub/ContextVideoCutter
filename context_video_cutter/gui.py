@@ -11,7 +11,13 @@ from context_video_cutter import uploader
 from context_video_cutter.config_manager import set_language, set_account, get_account_config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-config = toml.load(BASE_DIR / "config.toml")
+config_path = BASE_DIR / "config.toml"
+template_path = BASE_DIR / "config.example.toml"
+if not config_path.exists():
+    print("⚠ config.toml not found — creating from template.")
+    config = toml.load(template_path)
+else:
+    config = toml.load(config_path)
 BASE_OUTPUT_DIR = (BASE_DIR / config["paths"]["output_dir_base"]).as_posix()
 SOURCES_DIR = (BASE_DIR / config["paths"]["sources_dir"]).as_posix()
 
