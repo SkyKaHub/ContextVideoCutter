@@ -7,7 +7,8 @@ import context_video_cutter.subtitle_processing as subtitle_processing
 import toml
 import context_video_cutter.utils as utils
 import context_video_cutter.video_processing as video_processing
-from context_video_cutter.config_manager import set_language
+from context_video_cutter import uploader
+from context_video_cutter.config_manager import set_language, set_account, get_account_config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 config = toml.load(BASE_DIR / "config.toml")
@@ -195,6 +196,7 @@ def create_app():
                     "clips_json": clips_json_label,
                     "embedding_clips_label": embedding_clips_label,
                     "embedding_clips_statuses_label": embedding_clips_statuses_label,
+                    "timecodes_textbox": timecodes_textbox,
                 },
                 log_box,
                 tk,
@@ -251,24 +253,40 @@ def create_app():
     ).grid(row=2, column=0, sticky="w", pady=5)
 
     # === Section: TikTok Upload ===
-    #
-    # account = tk.StringVar(value=config["default"]["account"])
-    # account.trace_add("write", lambda *_: set_account(account.get()))
-    # ttk.Label(video_frame, text="Select account:").grid(row=0, column=0, columnspan=2, sticky="w", pady=5)
-    #
-    # for idx, account_name in enumerate(config['accounts']):
-    #     print(idx)
-    #     acc_data = config['accounts'][account_name]
-    #     tk.Radiobutton(
-    #         video_frame,
-    #         text=acc_data['accountname'],
-    #         variable=account,
-    #         value=account_name
-    #     ).grid(row=1, column=idx, sticky="w")
-    # upload_frame = ttk.LabelFrame(left_scrollable_frame, text="5. TikTok Upload")
-    # upload_frame.pack(fill="x", padx=10, pady=10)
 
-    # ttk.Button(upload_frame, text="Upload to TikTok").grid(row=0, column=0, sticky="w", pady=5)
+    upload_frame = ttk.LabelFrame(left_scrollable_frame, text="4. TikTok Upload")
+    upload_frame.pack(fill="x", padx=10, pady=10)
+
+    account = tk.StringVar(value=config["default"]["account"])
+    account.trace_add("write", lambda *_: set_account(account.get()))
+    ttk.Label(upload_frame, text="Select account:").grid(row=0, column=0, columnspan=2, sticky="w", pady=5)
+
+    for idx, account_name in enumerate(config['accounts']):
+        acc_data = config['accounts'][account_name]
+        tk.Radiobutton(
+            upload_frame,
+            text=acc_data['accountname'],
+            variable=account,
+            value=account_name
+        ).grid(row=0, column=idx, sticky="w")
+
+    ttk.Button(upload_frame,command=lambda: threading.Thread(
+            target=uploader.upload_tik_tok_videos,
+            args=(
+                {
+                    "uploading_status_label": uploading_status_label
+                },
+                log_box,
+                tk,
+            ),
+            daemon=True,
+        ).start(), text="Upload to TikTok").grid(row=1, column=0, sticky="w", pady=5)
+    uploading_status_label = ttk.Label(
+        upload_frame, text="Not started", style="Red.TLabel"
+    )
+    uploading_status_label.grid(
+        row=1, column=1, columnspan=2, sticky="w", pady=5
+    )
 
     return app
 
