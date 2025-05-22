@@ -196,6 +196,7 @@ def create_app():
                     "clips_json": clips_json_label,
                     "embedding_clips_label": embedding_clips_label,
                     "embedding_clips_statuses_label": embedding_clips_statuses_label,
+                    "timecodes_textbox": timecodes_textbox,
                 },
                 log_box,
                 tk,
