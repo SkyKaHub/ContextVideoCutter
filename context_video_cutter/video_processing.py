@@ -109,6 +109,9 @@ def hardcode_subs(labels, log_box, tk):
     for clip_info in clip_times:
         clips_statuses.append("Not started")
 
+    account_info = config_manager.get_account_config()
+    json_file = account_info["json"]
+
     for index, clip_info in enumerate(clip_times):
         clips_statuses[index] = "Processing"
         labels["embedding_clips_statuses_label"].config(
@@ -131,6 +134,22 @@ def hardcode_subs(labels, log_box, tk):
         clip.clean_indexes()
         temp_srt_path = clip_file_path.with_suffix(".srt")
         clip.save(temp_srt_path, encoding="utf-8")
+
+        with open(json_file, 'r', encoding='utf-8') as f:
+            account_json_file_data = json.load(f)
+            f.close()
+
+        account_json_file_data.append({
+            "video": clip_info["filename"],
+            "name": "",
+            "hashtags": "",
+            "is_uploaded": False,
+            "uploaded_date": "",
+        })
+
+        with open(json_file, 'w', encoding='utf-8') as f:
+            json.dump(account_json_file_data, f, ensure_ascii=False, indent=4)
+            f.close()
 
         # tmp_embed_video = Path(clip_file_path.as_posix()).with_stem(
         #     f"embed_clip_{index + 1}"

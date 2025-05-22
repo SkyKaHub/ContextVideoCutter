@@ -18,7 +18,6 @@ def upload_tik_tok_videos(labels, log_box, tk):
     labels["uploading_status_label"].configure(foreground="blue", text="Processing...")
     account_info = get_account_config()
     json_file = account_info["json"]
-    print(json_file)
     if Path(json_file).exists():
         with open(json_file, 'r', encoding='utf-8') as f:
             account_json_file_data = json.load(f)
