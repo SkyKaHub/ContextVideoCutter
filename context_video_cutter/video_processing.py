@@ -18,10 +18,11 @@ config = toml.load(BASE_DIR / "config.toml")
 
 
 def cut_video(labels, log_box, tk):
-    video = Path(config_manager.get_source_file_path())
+    video = config_manager.get_source_file_path()
     if not video:
         messagebox.showerror("Error", "Select video file.")
         return
+    video = Path(video)
     labels["clip_cutting_label"].config(text="Status: In progress", style="Blue.TLabel")
     base_name = slugify(Path(video).stem)
     current_output_dir = (
@@ -36,7 +37,11 @@ def cut_video(labels, log_box, tk):
     os.makedirs(current_output_dir, exist_ok=True)
     json_info = []
 
-    lines = config_manager.get_timecodes()
+    text_box_value = labels["timecodes_textbox"].get("1.0", tk.END)
+    if text_box_value:
+        lines = text_box_value.strip().splitlines()
+    else:
+        lines = config_manager.get_timecodes()
     for i, line in enumerate(lines, 1):
         try:
             start, end = line.strip().split(" - ")
