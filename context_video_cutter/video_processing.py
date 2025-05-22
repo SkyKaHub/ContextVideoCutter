@@ -18,11 +18,10 @@ config = toml.load(BASE_DIR / "config.toml")
 
 
 def cut_video(labels, log_box, tk):
-    video = config_manager.get_source_file_path()
-    if not video:
+    if not config_manager.get_source_file_path():
         messagebox.showerror("Error", "Select video file.")
         return
-    video = Path(video)
+    video = Path(config_manager.get_source_file_path())
     labels["clip_cutting_label"].config(text="Status: In progress", style="Blue.TLabel")
     base_name = slugify(Path(video).stem)
     current_output_dir = (
