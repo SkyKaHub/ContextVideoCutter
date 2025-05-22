@@ -15,3 +15,7 @@ clips_json_path = ""
 [accounts.test]
 json = "videos_jsons/test.json"
 accountname = "@test"
+
+[accounts.test2]
+json = "videos_jsons/test2.json"
+accountname = "@test2"
