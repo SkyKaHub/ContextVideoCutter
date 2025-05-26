@@ -8,6 +8,7 @@ import pysrt
 import spacy
 
 import toml
+from sklearn.feature_extraction.text import TfidfVectorizer
 from slugify import slugify
 
 import context_video_cutter.utils as utils
@@ -172,4 +173,16 @@ def get_interest_segments(srt_file, language="en", threshold: float = 0.7):
     # append last
     if current:
         segments.append(current)
+
+    segments = select_top_n_interesting(segments)
+
     return segments
+
+def select_top_n_interesting(segments, n=10):
+    texts = [" ".join(blk["text"] for blk in seg) for seg in segments]
+    vectorizer = TfidfVectorizer(stop_words='english')
+    tfidf = vectorizer.fit_transform(texts)
+    scores = np.asarray(tfidf.sum(axis=1)).ravel()
+    top_idx = np.argsort(scores)[::-1][:n]
+    top_idx_sorted = sorted(top_idx)
+    return [segments[i] for i in top_idx_sorted]
