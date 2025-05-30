@@ -263,22 +263,65 @@ def create_app():
     tik_tok_upload_frame = ttk.LabelFrame(tik_tok_left_scrollable_frame, text="7. TikTok Upload")
     tik_tok_upload_frame.pack(fill="x", padx=10, pady=10)
 
-    ttk.Button(tik_tok_upload_frame,command=lambda: threading.Thread(
-            target=uploader.upload_tik_tok_videos,
-            args=(
-                {
-                    "uploading_status_label": tik_tok_uploading_status_label
-                },
-                tik_tok_log_box,
-                tk,
-            ),
-            daemon=True,
-        ).start(), text="Upload to TikTok").grid(row=1, column=0, sticky="w", pady=5)
+    ttk.Button(tik_tok_upload_frame, command=lambda: threading.Thread(
+        target=uploader.upload_tik_tok_videos,
+        args=(
+            {
+                "uploading_status_label": tik_tok_uploading_status_label
+            },
+            tik_tok_log_box,
+            tk,
+        ),
+        daemon=True,
+    ).start(), text="Get left count").grid(row=1, column=0, sticky="w", pady=5)
+    tik_tok_get_count_label = ttk.Label(
+        tik_tok_upload_frame, text="0"
+    )
+    tik_tok_get_count_label.grid(
+        row=1, column=1, columnspan=2, sticky="w", pady=5
+    )
+    tik_tok_count_entry = ttk.Entry(
+        tik_tok_upload_frame,
+        width=10
+    )
+    tik_tok_count_entry.insert(0, "4")
+    tik_tok_count_entry.grid(
+        row=2, column=0, padx=5, pady=5, sticky="w"
+    )
+    tik_tok_hours_between_entry = ttk.Entry(
+        tik_tok_upload_frame,
+        width=10
+    )
+    tik_tok_hours_between_entry.insert(0, "4")
+    tik_tok_hours_between_entry.grid(
+        row=2, column=1, padx=5, pady=5, sticky="w"
+    )
+    ttk.Label(
+        tik_tok_upload_frame, text="Videos count"
+    ).grid(
+        row=3, column=0, sticky="w", pady=5, padx=5
+    )
+    ttk.Label(
+        tik_tok_upload_frame, text="Hours between"
+    ).grid(
+        row=3, column=1, sticky="w", pady=5, padx=5
+    )
+    ttk.Button(tik_tok_upload_frame, command=lambda: threading.Thread(
+        target=uploader.upload_tik_tok_videos,
+        args=(
+            {
+                "uploading_status_label": tik_tok_uploading_status_label
+            },
+            tik_tok_log_box,
+            tk,
+        ),
+        daemon=True,
+    ).start(), text="Upload to TikTok").grid(row=4, column=0, sticky="w", pady=5)
     tik_tok_uploading_status_label = ttk.Label(
         tik_tok_upload_frame, text="Not started", style="Red.TLabel"
     )
     tik_tok_uploading_status_label.grid(
-        row=1, column=1, columnspan=2, sticky="w", pady=5
+        row=4, column=2, columnspan=2, sticky="w", pady=5
     )
     # ==================== Tab 1: Tik Tok ==============================
 
