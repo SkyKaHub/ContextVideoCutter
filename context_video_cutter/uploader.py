@@ -43,7 +43,7 @@ def upload_tik_tok_videos(labels, log_box, tk):
     original_stdout = sys.stdout
     sys.stdout = type('', (), {'write': lambda self, msg: utils.log_message(msg.strip(), log_box, tk), 'flush': lambda self: None})()
 
-    for video in filtered_data[:labels["tik_tok_count_entry"].get()]:
+    for video in filtered_data[:int(labels["tik_tok_count_entry"].get())]:
         desc = video["name"]
         video_path = video["video"]
         accountname = account_info["accountname"]
@@ -52,7 +52,7 @@ def upload_tik_tok_videos(labels, log_box, tk):
                                   accountname=accountname, schedule=schedule.strftime("%H:%M")), log_box, tk)
         video["is_uploaded"] = True
         video["uploaded_date"] = schedule.strftime("%Y-%m-%d %H:%M")
-        schedule += timedelta(hours=labels["tik_tok_hours_between_entry"].get())
+        schedule += timedelta(hours=int(labels["tik_tok_hours_between_entry"].get()))
 
     with open(json_file, 'w', encoding='utf-8') as f:
         json.dump(account_json_file_data, f, ensure_ascii=False, indent=4)
