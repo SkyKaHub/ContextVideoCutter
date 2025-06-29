@@ -1,6 +1,7 @@
 import threading
 import tkinter as tk
 from pathlib import Path
+import shutil
 from tkinter import ttk
 
 import context_video_cutter.subtitle_processing as subtitle_processing
@@ -15,9 +16,9 @@ config_path = BASE_DIR / "config.toml"
 template_path = BASE_DIR / "config.example.toml"
 if not config_path.exists():
     print("⚠ config.toml not found — creating from template.")
-    config = toml.load(template_path)
-else:
-    config = toml.load(config_path)
+    shutil.copy(template_path, config_path)
+
+config = toml.load(config_path)
 BASE_OUTPUT_DIR = (BASE_DIR / config["paths"]["output_dir_base"]).as_posix()
 SOURCES_DIR = (BASE_DIR / config["paths"]["sources_dir"]).as_posix()
 

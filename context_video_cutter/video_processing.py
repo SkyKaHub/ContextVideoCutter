@@ -3,6 +3,7 @@ import os
 import subprocess
 from datetime import datetime
 from pathlib import Path
+import shutil
 from tkinter import messagebox
 
 import pysrt
@@ -18,9 +19,9 @@ config_path = BASE_DIR / "config.toml"
 template_path = BASE_DIR / "config.example.toml"
 if not config_path.exists():
     print("⚠ config.toml not found — creating from template.")
-    config = toml.load(template_path)
-else:
-    config = toml.load(config_path)
+    shutil.copy(template_path, config_path)
+
+config = toml.load(config_path)
 
 
 def cut_video(labels, log_box, tk):

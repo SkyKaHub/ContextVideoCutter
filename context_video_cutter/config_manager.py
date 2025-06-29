@@ -1,4 +1,5 @@
 from pathlib import Path
+import shutil
 import toml
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -6,9 +7,9 @@ config_path = BASE_DIR / "config.toml"
 template_path = BASE_DIR / "config.example.toml"
 if not config_path.exists():
     print("⚠ config.toml not found — creating from template.")
-    _raw = toml.load(template_path)
-else:
-    _raw = toml.load(config_path)
+    shutil.copy(template_path, config_path)
+
+_raw = toml.load(config_path)
 
 output_dir = (BASE_DIR / _raw["paths"]["output_dir_base"]).as_posix()
 language = _raw["default"]["language"]

@@ -2,6 +2,7 @@ import json
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
+import shutil
 from tkinter import messagebox
 from tiktokautouploader import upload_tiktok
 
@@ -15,9 +16,9 @@ config_path = BASE_DIR / "config.toml"
 template_path = BASE_DIR / "config.example.toml"
 if not config_path.exists():
     print("⚠ config.toml not found — creating from template.")
-    config = toml.load(template_path)
-else:
-    config = toml.load(config_path)
+    shutil.copy(template_path, config_path)
+
+config = toml.load(config_path)
 
 #Supported only ENG accounts!
 def upload_tik_tok_videos(labels, log_box, tk):
