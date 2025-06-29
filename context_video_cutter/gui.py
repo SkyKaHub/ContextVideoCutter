@@ -72,7 +72,7 @@ def create_app():
 
     tik_tok_language = tk.StringVar(value=config["default"]["language"])
     tik_tok_language.trace_add("write", lambda *_: set_language(tik_tok_language.get()))
-    ttk.Label(tik_tok_video_frame, text="Select video tik_tok_language:").grid(
+    ttk.Label(tik_tok_video_frame, text="Select video language:").grid(
         row=1, column=0, columnspan=2, sticky="w", pady=5
     )
     tk.Radiobutton(tik_tok_video_frame, text="English", variable=tik_tok_language, value="en").grid(
