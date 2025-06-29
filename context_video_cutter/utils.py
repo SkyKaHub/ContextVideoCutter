@@ -6,6 +6,7 @@ from datetime import timedelta
 
 import toml
 from pathlib import Path
+import shutil
 from tkinter import filedialog, messagebox
 import yt_dlp
 from faster_whisper import WhisperModel
@@ -19,9 +20,9 @@ config_path = BASE_DIR / "config.toml"
 template_path = BASE_DIR / "config.example.toml"
 if not config_path.exists():
     print("⚠ config.toml not found — creating from template.")
-    config = toml.load(template_path)
-else:
-    config = toml.load(config_path)
+    shutil.copy(template_path, config_path)
+
+config = toml.load(config_path)
 
 
 class YTDLPLogger:
